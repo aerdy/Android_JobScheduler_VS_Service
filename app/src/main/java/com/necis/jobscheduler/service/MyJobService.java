@@ -13,12 +13,13 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.necis.jobscheduler.MainActivity;
+import com.necis.jobscheduler.util.Util;
 
 /**
  * Created by Jarcode on 2016-03-12.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class JobService extends android.app.job.JobService {
+public class MyJobService extends android.app.job.JobService {
     String LogName = "JobSced";
 
     @Override
@@ -30,13 +31,16 @@ public class JobService extends android.app.job.JobService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e(LogName, "Mematikan/ Menghancurkan JobService");
+        Log.e(LogName, "Mematikan/ Menghancurkan MyJobService");
     }
 
 
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.e(LogName, "Menjalan Job Scheduler");
+        Intent service = new Intent(getApplicationContext(), MainActivity.class);
+        getApplicationContext().startService(service);
+        Util.scheduleJob(getApplicationContext()); // reschedule the job
         return true;
     }
 
